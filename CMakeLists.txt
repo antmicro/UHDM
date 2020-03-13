@@ -64,6 +64,7 @@ add_custom_command(
   OUTPUT ${model-GENERATED_SRC}
   COMMAND tclsh ${PROJECT_SOURCE_DIR}/model_gen.tcl
           ${PROJECT_SOURCE_DIR}/model/models.lst ${CMAKE_BINARY_DIR}
+          && git -C ${PROJECT_SOURCE_DIR} checkout -- headers
   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/../"
   DEPENDS ${PROJECT_SOURCE_DIR}/model_gen.tcl
           ${PROJECT_SOURCE_DIR}/model/models.lst
