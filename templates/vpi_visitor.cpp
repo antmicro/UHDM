@@ -219,6 +219,7 @@ static std::string vpiTypeName(vpiHandle h) {
     case 89: return "vpiArgument";
     case 90: return "vpiBit";
     case 666: return "vpiReturn";
+    case 900: return "vpiExpressionTypespec";
     case 2: return "vpiAssignStmt";
     case 91: return "vpiDriver";
     case 667: return "vpiAnyPattern";

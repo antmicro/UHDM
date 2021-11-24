@@ -1,6 +1,7 @@
 std::string vpiTypeName(vpiHandle h) {
   int type = vpi_get(vpiType, h);
   switch (type) {
+    case 900: return "vpiExpressionTypespec";
     case 35: return "vpiNamedFork";
     case 611: return "vpiShortIntVar";
     case 36: return "vpiNet";

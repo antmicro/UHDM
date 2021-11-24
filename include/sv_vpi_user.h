@@ -75,6 +75,7 @@ extern "C" {
 #define vpiEnumTypespec                       633
 #define vpiEnumConst                          634
 #define vpiIntegerTypespec                    635
+#define vpiExpressionTypespec                 900
 #define vpiTimeTypespec                       636
 #define vpiRealTypespec                       637
 #define vpiStructTypespec                     638

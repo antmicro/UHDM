@@ -230,6 +230,7 @@ unsupported_typespec.yaml
 sequence_typespec.yaml
 property_typespec.yaml
 interface_typespec.yaml
+expression_typespec.yaml
 type_parameter.yaml
 typespec_member.yaml
 enum_const.yaml

@@ -864,6 +864,7 @@ set SHORT_VISITOR_LIST { class_obj
     event_typespec
     named_event
     int_typespec
+    expression_typespec
     forever_stmt
     interface_tf_decl
     final_stmt
