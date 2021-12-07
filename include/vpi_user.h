@@ -238,6 +238,7 @@ typedef PLI_UINT32 *vpiHandle;
 #define vpiTchkDataTerm       86   /* timing check data term */
 #define vpiTchkNotifier       87   /* timing check notifier */
 #define vpiTchkRefTerm        88   /* timing check reference term */
+#define vpiOriginalExpr 123456
 
 /************* methods used to traverse 1 to many relationships ***************/
 

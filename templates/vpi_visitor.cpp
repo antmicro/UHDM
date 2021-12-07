@@ -186,6 +186,7 @@ static std::string vpiTypeName(vpiHandle h) {
     case 74: return "vpiForIncStmt";
     case 650: return "vpiClockingBlock";
     case 75: return "vpiForInitStmt";
+  case 123456: return "vpiOriginalExpr";
     case 651: return "vpiClockingIODecl";
     case 76: return "vpiHighConn";
     case 652: return "vpiClassDefn";

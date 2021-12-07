@@ -306,5 +306,6 @@ std::string vpiTypeName(vpiHandle h) {
     case 34: return "vpiNamedEvent";
     case 609: return "vpiTypeParameter";
     case 610: return "vpiLongIntVar";
+    case 123456: return "vpiOriginalExpr";
   }
 }
