@@ -35,8 +35,8 @@
     vpi: vpiTypespec
     type: typespec
     card: 1
-  - group_ref: original_expr
+  - class_ref: original_expr
     name: original_expr
     vpi: vpiOriginalExpr
-    type: actual_group
+    type: expr
     card: 1
