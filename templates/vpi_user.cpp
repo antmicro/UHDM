@@ -234,7 +234,7 @@ PLI_INT32 vpi_compare_objects(vpiHandle handle1, vpiHandle handle2) {
       (const BaseClass*)((const uhdm_handle*)handle1)->object;
   const BaseClass* const object2 =
       (const BaseClass*)((const uhdm_handle*)handle2)->object;
-  return (object1 == object2) ? 0 : object1->Compare(object2);
+  return (object1 == object2) ? 1 : object1->Compare(object2);
 }
 
 vpiHandle vpi_scan(vpiHandle iterator) {
