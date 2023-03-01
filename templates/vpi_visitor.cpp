@@ -420,6 +420,24 @@ static void release_handle(vpiHandle obj_h) {
 #endif
 }
 
+
+static const char* charmap = "0123456789";
+
+
+static std::string to_string(const __uint128_t& value)
+{
+    std::string result;
+    result.reserve( 40 ); // max. 40 digits possible ( uint64_t has 20) 
+    __uint128_t helper = value;
+
+    do {
+        result += charmap[ helper % 10 ];
+        helper /= 10;
+    } while ( helper );
+    std::reverse( result.begin(), result.end() );
+    return result;
+}
+
 static std::string visit_value(s_vpi_value* value) {
   if (value == nullptr)
     return "";
@@ -430,7 +448,7 @@ static std::string visit_value(s_vpi_value* value) {
           .append("\n");
   case vpiUIntVal:
     return std::string("|UINT:")
-        .append(std::to_string(value->value.uint))
+        .append(to_string(value->value.uint))
         .append("\n");
   case vpiStringVal:
     return std::string("|STRING:")

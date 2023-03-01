@@ -1587,8 +1587,9 @@ expr *ExprEval::reduceBitSelect(expr *op, unsigned int index_val,
   return result;
 }
 
-int64_t ExprEval::get_value(bool &invalidValue, const UHDM::expr *expr,
+__int128_t ExprEval::get_value(bool &invalidValue, const UHDM::expr *expr,
                             bool strict) {
+  __int128_t result128 = 0;
   int64_t result = 0;
   int type = 0;
   std::string_view sv;
@@ -1607,14 +1608,14 @@ int64_t ExprEval::get_value(bool &invalidValue, const UHDM::expr *expr,
   if (!invalidValue) {
     switch (type) {
       case vpiBinaryConst: {
-        if (expr->VpiSize() > 64) {
+        if (expr->VpiSize() > 128) {
           invalidValue = true;
         } else {
           sv = ltrim(sv, '\'');
           sv = ltrim(sv, 's');
           sv = ltrim(sv, 'b');
           sv.remove_prefix(std::string_view("BIN:").length());
-          bool invalid = NumUtils::parseBinary(sv, &result) == nullptr;
+          bool invalid = NumUtils::parseBinary(sv, &result128) == nullptr;
           if (strict) invalidValue = invalid;
         }
         break;
@@ -1690,7 +1691,10 @@ int64_t ExprEval::get_value(bool &invalidValue, const UHDM::expr *expr,
       }
     }
   }
-  return result;
+  if (type != vpiBinaryConst) {
+    result128 = result;
+  }
+  return result128;
 }
 
 uint64_t ExprEval::get_uvalue(bool &invalidValue, const UHDM::expr *expr,
@@ -1859,6 +1863,22 @@ UHDM::task_func *ExprEval::getTaskFunc(std::string_view name,
   }
 
   return nullptr;
+}
+static const char* charmap = "0123456789";
+
+
+std::string to_string(const __uint128_t& value)
+{
+    std::string result;
+    result.reserve( 40 ); // max. 40 digits possible ( uint64_t has 20) 
+    __uint128_t helper = value;
+
+    do {
+        result += charmap[ helper % 10 ];
+        helper /= 10;
+    } while ( helper );
+    std::reverse( result.begin(), result.end() );
+    return result;
 }
 
 any *ExprEval::decodeHierPath(hier_path *path, bool &invalidValue,
@@ -2068,15 +2088,15 @@ any *ExprEval::hierarchicalSelector(std::vector<std::string> &select_path,
         for (typespec_member *member : *stpt->Members()) {
           if (member->VpiName() == elemName) {
             width = size(member, invalidValue, inst, pexpr, true);
-            uint64_t iv = get_value(invalidValue, cons);
-            uint64_t mask = 0;
+            __uint128_t iv = get_value(invalidValue, cons);
+            __uint128_t mask = 0;
 
-            for (uint64_t i = from; i < uint64_t(from + width); i++) {
-              mask |= ((uint64_t)1 << i);
+            for (__uint128_t i = from; i < __uint128_t(from + width); i++) {
+              mask |= ((__uint128_t)1 << i);
             }
-            uint64_t res = iv & mask;
+            __uint128_t res = iv & mask;
             res = res >> (from);
-            cons->VpiValue("UINT:" + std::to_string(res));
+            cons->VpiValue("UINT:" + ::to_string(res));
             cons->VpiSize(static_cast<int>(width));
             return cons;
           } else {

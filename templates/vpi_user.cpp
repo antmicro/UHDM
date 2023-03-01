@@ -81,7 +81,7 @@ s_vpi_value* String2VpiValue(std::string_view sv) {
   if (sv.find("UINT:") == 0) {
     val->format = vpiUIntVal;
     sv.remove_prefix(std::string_view("UINT:").length());
-    if (NumUtils::parseUint64(sv, &val->value.uint) == nullptr) {
+    if (NumUtils::parseUint128(sv, &val->value.uint) == nullptr) {
       val->value.uint = 0;
     }
   } else if (sv.find("INT:") == 0) {
@@ -161,6 +161,22 @@ s_vpi_delay* String2VpiDelays(std::string_view sv) {
   }
   return delay;
 }
+static const char* charmap = "0123456789";
+
+
+static std::string to_string(const __uint128_t& value)
+{
+    std::string result;
+    result.reserve( 40 ); // max. 40 digits possible ( uint64_t has 20) 
+    __uint128_t helper = value;
+
+    do {
+        result += charmap[ helper % 10 ];
+        helper /= 10;
+    } while ( helper );
+    std::reverse( result.begin(), result.end() );
+    return result;
+}
 
 std::string VpiValue2String(const s_vpi_value* value) {
   static constexpr std::string_view kIntPrefix("INT:");
@@ -176,7 +192,7 @@ std::string VpiValue2String(const s_vpi_value* value) {
   if (!value) return "";
   switch (value->format) {
     case vpiIntVal: return std::string(kIntPrefix).append(std::to_string(value->value.integer));
-    case vpiUIntVal: return std::string(kUIntPrefix).append(std::to_string(value->value.uint));
+    case vpiUIntVal: return std::string(kUIntPrefix).append(to_string(value->value.uint));
     case vpiScalarVal: {
       switch (value->value.scalar) {
         case vpi0: return "SCAL:0";

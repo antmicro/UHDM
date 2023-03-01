@@ -76,7 +76,7 @@ class ExprEval {
   any* getObject(std::string_view name, const any* inst, const any* pexpr,
                  bool muteError = false);
 
-  int64_t get_value(bool& invalidValue, const UHDM::expr* expr, bool strict = false);
+  __int128_t get_value(bool& invalidValue, const UHDM::expr* expr, bool strict = false);
 
   uint64_t get_uvalue(bool& invalidValue, const UHDM::expr* expr, bool strict = false);
 

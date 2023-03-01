@@ -130,14 +130,23 @@ template <typename result_type>
                                              uint64_t* result) {
   return internal::strToNum(s, 10, result);
 }
+// Parse uint128, stricly matching its range; no negative numbers
+[[nodiscard]] inline const char* parseUint128(std::string_view s,
+                                             __uint128_t* result) {
+  return internal::strToNum(s, 10, result);
+}
 
 template <typename result_type>
 [[nodiscard]] inline const char* parseBinary(std::string_view s,
                                              result_type* result) {
   if constexpr (sizeof(result_type) == 4) {
     return internal::strToInt<int32_t, uint32_t, result_type>(s, 2, result);
-  } else {
+  }
+  if constexpr (sizeof(result_type) == 8) {
     return internal::strToInt<int64_t, uint64_t, result_type>(s, 2, result);
+  }
+  if constexpr (sizeof(result_type) == 16) {
+    return internal::strToInt<__int128_t, __uint128_t, result_type>(s, 2, result);
   }
 }
 

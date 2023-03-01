@@ -49,6 +49,7 @@ typedef signed __int8 int8_t;
 #define SVPI_TYPES
 typedef int64_t PLI_INT64;
 typedef uint64_t PLI_UINT64;
+typedef __uint128_t PLI_UINT128;
 #endif
 
 #ifndef PLI_TYPES
@@ -647,7 +648,7 @@ typedef struct t_vpi_value
       PLI_BYTE8                *str;       /* string value */
       PLI_INT32                 scalar;    /* vpi[0,1,X,Z] */
       PLI_INT64                 integer;   /* integer value */  /* !!! NOT Standard!!! Changed type from PLI_INT32 to PLI_INT64 !!! */
-      PLI_UINT64                uint;      /* unsigned value */ /* !!! NOT Standard!!! Added UINT64 type !!! */
+      PLI_UINT128                uint;      /* unsigned value */ /* !!! NOT Standard!!! Added UINT64 type !!! */
       double                    real;      /* real value */
       struct t_vpi_time        *time;      /* time value */
       struct t_vpi_vecval      *vector;    /* vector value */
